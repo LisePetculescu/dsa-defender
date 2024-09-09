@@ -6,7 +6,7 @@ window.addEventListener("load", start);
 const gamesizes = {
   width: 800,
   height: 600,
-  enemy: 64,
+  enemy: 64
 };
 
 let gameRunning = true;
@@ -34,12 +34,14 @@ function resetGame() {
 // **************************************
 
 // the list of enemies is an array of size 5 - but it could be larger ...
-const enemies = new StaticArray(5); 
+// const enemies = new StaticArray(5);
+let firstEnemy = null;
 
 function createInitialEnemies() {
- // create five enemies
+  // create five enemies
   for (let i = 0; i < 5; i++) {
-    enemies[i] = spawnNewEnemy();
+    // enemies[i] = spawnNewEnemy();
+    spawnNewEnemy();
   }
 }
 
@@ -47,14 +49,31 @@ function createInitialEnemies() {
 function spawnNewEnemy() {
   const enemy = createEnemy();
   // TODO: need to add new enemy to list of enemies, here!
-  
+  if (firstEnemy == null) {
+    firstEnemy = enemy;
+  } else {
+    enemy.next = firstEnemy;
+    firstEnemy = enemy;
+  }
+
   return enemy;
 }
 
 // removes an enemy object from the list of enemies
 function removeEnemy(enemy) {
   // TODO: need to find enemy object in list of enemies, and remove it
-  
+  if (enemy === firstEnemy) {
+    firstEnemy = enemy.next;
+  } else {
+    let anEnemy = firstEnemy;
+    while (anEnemy) {
+      if (anEnemy.next === enemy) {
+        anEnemy.next = enemy.next;
+        break;
+      }
+      anEnemy = anEnemy.next;
+    }
+  }
 }
 
 // returns the number of enemy objects in the list of enemies
@@ -81,7 +100,7 @@ function createEnemy() {
     x: Math.floor(Math.random() * (gamesizes.width - gamesizes.enemy)),
     y: -gamesizes.enemy,
     ySpeed: Math.floor(Math.random() * 50 + 50),
-    visual: div,
+    visual: div
   };
 
   div.addEventListener("mousedown", clickEnemy);
@@ -164,10 +183,12 @@ function loop() {
 
   // ****
   // Loop through all enemies - and move them until the reach the bottom
-  // ****
-  for (const enemy of enemies) {
-    // TODO: Only look at actual enemy objects from the list ...
 
+  // ****
+  // for (const enemy of enemies) {
+  // TODO: Only look at actual enemy objects from the list ...
+  let enemy = firstEnemy;
+  while (enemy) {
     // ignore enemies who are dying or crashing - so they don't move any further
     if (!enemy.isFrozen) {
       enemy.y += enemy.ySpeed * deltaTime;
@@ -176,6 +197,9 @@ function loop() {
         enemyHitBottom(enemy);
       }
     }
+
+    displayEnemy(enemy);
+    enemy = enemy.next;
   }
 
   // Check for game over
@@ -193,11 +217,14 @@ function loop() {
   // ****
   // Loop through all enemies - and update their visuals
   // ****
-  for (const enemy of enemies) {
+  enemy = firstEnemy;
+  while (enemy) {
+    // for (const enemy of enemies) {
     // TODO: Only do this for actual enemy objects from the list ...
     displayEnemy(enemy);
+    enemy = enemy.next;
+    // }
   }
-
   // update health display
   displayHealth();
 
@@ -209,7 +236,7 @@ function loop() {
 
 function enemyHitBottom(enemy) {
   console.log("Enemy attacked base!");
-  
+
   // lose health
   health -= 5;
   // display crash on enemy
