@@ -1,4 +1,4 @@
-import StaticArray from "./StaticArray.js";
+import SinglyLinkedList from "./singlylinkedlist.js";
 
 window.addEventListener("load", start);
 
@@ -21,6 +21,8 @@ function start() {
   resetGame();
   // begin the loop
   requestAnimationFrame(loop);
+
+  window.enemies = enemies;
 }
 
 function resetGame() {
@@ -35,13 +37,12 @@ function resetGame() {
 
 // the list of enemies is an array of size 5 - but it could be larger ...
 // const enemies = new StaticArray(5);
-let firstEnemy = null;
+const enemies = new SinglyLinkedList();
 
 function createInitialEnemies() {
   // create five enemies
   for (let i = 0; i < 5; i++) {
-    // enemies[i] = spawnNewEnemy();
-    spawnNewEnemy();
+    enemies[i] = spawnNewEnemy();
   }
 }
 
@@ -49,31 +50,13 @@ function createInitialEnemies() {
 function spawnNewEnemy() {
   const enemy = createEnemy();
   // TODO: need to add new enemy to list of enemies, here!
-  if (firstEnemy == null) {
-    firstEnemy = enemy;
-  } else {
-    enemy.next = firstEnemy;
-    firstEnemy = enemy;
-  }
-
+  enemies.add(enemy);
   return enemy;
 }
 
 // removes an enemy object from the list of enemies
 function removeEnemy(enemy) {
   // TODO: need to find enemy object in list of enemies, and remove it
-  if (enemy === firstEnemy) {
-    firstEnemy = enemy.next;
-  } else {
-    let anEnemy = firstEnemy;
-    while (anEnemy) {
-      if (anEnemy.next === enemy) {
-        anEnemy.next = enemy.next;
-        break;
-      }
-      anEnemy = anEnemy.next;
-    }
-  }
 }
 
 // returns the number of enemy objects in the list of enemies
@@ -183,12 +166,12 @@ function loop() {
 
   // ****
   // Loop through all enemies - and move them until the reach the bottom
-
   // ****
   // for (const enemy of enemies) {
-  // TODO: Only look at actual enemy objects from the list ...
-  let enemy = firstEnemy;
-  while (enemy) {
+    // TODO: Only look at actual enemy objects from the list ...
+let node = enemies.getFirstNode();
+while (node != null) {
+  const enemy = node.data;
     // ignore enemies who are dying or crashing - so they don't move any further
     if (!enemy.isFrozen) {
       enemy.y += enemy.ySpeed * deltaTime;
@@ -198,8 +181,7 @@ function loop() {
       }
     }
 
-    displayEnemy(enemy);
-    enemy = enemy.next;
+    node = enemies.getNextNode(node)
   }
 
   // Check for game over
@@ -217,14 +199,15 @@ function loop() {
   // ****
   // Loop through all enemies - and update their visuals
   // ****
-  enemy = firstEnemy;
-  while (enemy) {
-    // for (const enemy of enemies) {
-    // TODO: Only do this for actual enemy objects from the list ...
-    displayEnemy(enemy);
-    enemy = enemy.next;
-    // }
-  }
+  // for (const enemy of enemies) {
+   node = enemies.getFirstNode();
+   while (node != null) {
+     const enemy = node.data;
+     // TODO: Only do this for actual enemy objects from the list ...
+     displayEnemy(enemy);
+     node = enemies.getNextNode(node);
+   }
+
   // update health display
   displayHealth();
 
