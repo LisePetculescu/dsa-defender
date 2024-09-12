@@ -14,31 +14,41 @@ export default class SinglyLinkedList {
   // remove( data ) - der finder en node med link til dét data-objekt,
   //  og fjerner noden.
   remove(data) {
-    // hvis listen er tom og head er null, så stopper vi der
-    if (this.head === null) {
-      return;
-    }
+    // Step 1: Find the node with the given data
+    const nodeToRemove = this.getNodeWithData(data);
 
-    // hvis det er head der skal fjernes,
-    //    sættes head til at være den næste node.
-    // hvis head var den eneste node tilbage, sættes head til null
-    //    fordi listen er tom
-    if (this.head.data === data) {
-      this.head = this.head.next;
-      return;
-    }
-
-    // hvis head ikke skal fjernes, loopes igennem resten af listen
-    //    af nodes indtil den rigtig node er fundet.
-    let node = this.head;
-    while (node.next !== null) {
-      if (node.next.data === data) {
-        node.next = node.next.next;
-        return;
-      }
-      node = node.next;
+    // Step 2: Remove the node if it exists
+    if (nodeToRemove !== null) {
+      this.removeNode(nodeToRemove);
     }
   }
+
+  // remove(data) {
+  //   // hvis listen er tom og head er null, så stopper vi der
+  //   if (this.head === null) {
+  //     return;
+  //   }
+
+  //   // hvis det er head der skal fjernes,
+  //   //    sættes head til at være den næste node.
+  //   // hvis head var den eneste node tilbage, sættes head til null
+  //   //    fordi listen er tom
+  //   if (this.head.data === data) {
+  //     this.head = this.head.next;
+  //     return;
+  //   }
+
+  //   // hvis head ikke skal fjernes, loopes igennem resten af listen
+  //   //    af nodes indtil den rigtig node er fundet.
+  //   let node = this.head;
+  //   while (node.next !== null) {
+  //     if (node.next.data === data) {
+  //       node.next = node.next.next;
+  //       return;
+  //     }
+  //     node = node.next;
+  //   }
+  // }
 
   // getFirst() - der returnerer data i den første node i listen
   getFirst() {
@@ -84,8 +94,8 @@ export default class SinglyLinkedList {
     return node;
   }
 
-  // getNodeWith( data ) - der returnerer den node der linker til dette data-objekt
-  getNodeWith(data) {
+  // getNodeWithData( data ) - der returnerer den node der linker til dette data-objekt
+  getNodeWithData(data) {
     let node = this.head;
 
     while (node !== null) {
@@ -105,7 +115,7 @@ export default class SinglyLinkedList {
     }
     // head sættes til at være den næste node,
     //  hvis listen kun har en node, vil head blive null og listen er hermed tom
-    return (this.head = this.head.next);
+    this.head = this.head.next;
   }
 
   // removeLastNode() - der fjerner den sidste node fra listen

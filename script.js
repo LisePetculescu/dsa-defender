@@ -57,12 +57,14 @@ function spawnNewEnemy() {
 // removes an enemy object from the list of enemies
 function removeEnemy(enemy) {
   // TODO: need to find enemy object in list of enemies, and remove it
+  enemies.remove(enemy);
 }
 
 // returns the number of enemy objects in the list of enemies
 function numberOfEnemies() {
   // TODO: need to return the number of actual enemies, not the size of the array
-  return enemies.length;
+  // return enemies.length;
+  return enemies.size();
 }
 
 // ************************************************
