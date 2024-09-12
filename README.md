@@ -14,3 +14,6 @@ Please assist by forking and fixing the code - you can easily spot all the TODOs
 
 # Deployd game at: 
 https://lisepetculescu.github.io/dsa-defender/
+
+# Datastruktur portfolie med singlylinkedlist
+https://github.com/LisePetculescu/datastructure-portfolio/tree/main/linkedlist
