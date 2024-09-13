@@ -11,3 +11,9 @@ The game is nearly complete, but unfortunately a requirement is that the list of
 For now the list is implemented with a StaticArray - a bit like an old-timey C or Java array - but I'm sure that something better could be used ...
 
 Please assist by forking and fixing the code - you can easily spot all the TODOs.
+
+# Deployd game at: 
+https://lisepetculescu.github.io/dsa-defender/
+
+# Datastruktur portfolie med singlylinkedlist
+https://github.com/LisePetculescu/datastructure-portfolio/tree/main/linkedlist
