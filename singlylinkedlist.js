@@ -14,10 +14,8 @@ export default class SinglyLinkedList {
   // remove( data ) - der finder en node med link til dét data-objekt,
   //  og fjerner noden.
   remove(data) {
-    // Step 1: Find the node with the given data
     const nodeToRemove = this.getNodeWithData(data);
 
-    // Step 2: Remove the node if it exists
     if (nodeToRemove !== null) {
       this.removeNode(nodeToRemove);
     }
